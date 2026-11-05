@@ -3,46 +3,50 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0E2A33">
+<meta name="theme-color" content="#101410">
 <title>সদস্য তথ্যভান্ডার</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap">
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:'Hind Siliguri',sans-serif;background:#F3F5F8;color:#0F1B2D;font-size:16px}
+body{margin:0;font-family:'Hind Siliguri',sans-serif;background:#ECEFE3;color:#121510;font-size:16px}
 button,input{font-family:inherit;font-size:16px}
-:focus-visible{outline:3px solid #2BA4A0;outline-offset:2px}
+:focus-visible{outline:3px solid #C9A227;outline-offset:2px}
 .wrap{max-width:720px;margin:0 auto;padding:16px}
-.top{background:#0E2A33;color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px}
-.logo{width:34px;height:34px;border-radius:9px;background:#2BA4A0;color:#06242A;display:flex;align-items:center;justify-content:center;font-weight:700}
+.top{background:#101410;border-bottom:3px solid #C9A227;color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px}
+.logo{width:34px;height:34px;border-radius:9px;background:#C9A227;color:#101410;display:flex;align-items:center;justify-content:center;font-weight:700}
 .top b{flex:1;font-weight:600}
-.top button{background:transparent;color:#fff;border:1px solid #4A6B75;border-radius:8px;padding:6px 12px}
-.card{background:#fff;border:1px solid #E0E5EB;border-radius:14px;padding:18px;margin-bottom:14px}
+.top button{background:transparent;color:#fff;border:1px solid #8A7A3A;border-radius:8px;padding:6px 12px}
+.card{background:#fff;border:1px solid #D5D9C5;border-radius:14px;padding:18px;margin-bottom:14px}
 h1{margin:0 0 4px;font-size:26px}
-.muted{color:#566274;font-size:14px}
+.muted{color:#5A5F4A;font-size:14px}
 label{display:block;font-size:14px;font-weight:500;margin:12px 0 4px}
-input{width:100%;height:48px;padding:0 14px;border:1px solid #C5CCD6;border-radius:10px;background:#fff}
-.btn{height:48px;border:0;border-radius:10px;background:#0B5C63;color:#fff;font-weight:600;padding:0 22px}
-.btn.alt{background:#fff;color:#0B5C63;border:1px solid #0B5C63}
+input{width:100%;height:48px;padding:0 14px;border:1px solid #B9BEA6;border-radius:10px;background:#fff}
+.btn{height:48px;border:0;border-radius:10px;background:#4B5320;color:#fff;font-weight:600;padding:0 22px}
+.btn.alt{background:#fff;color:#4B5320;border:1px solid #4B5320}
 .btn.full{width:100%;margin-top:18px}
-.seg{display:flex;gap:6px;padding:4px;background:#EEF1F5;border-radius:12px;margin:14px 0 0}
-.seg button{flex:1;height:44px;border:0;border-radius:9px;background:transparent;color:#2F3B4D;font-weight:500}
-.seg button[aria-pressed=true]{background:#0B5C63;color:#fff;font-weight:600}
+.seg{display:flex;gap:6px;padding:4px;background:#E3E6D6;border-radius:12px;margin:14px 0 0}
+.seg button{flex:1;height:44px;border:0;border-radius:9px;background:transparent;color:#2C3320;font-weight:500}
+.seg button[aria-pressed=true]{background:#4B5320;color:#fff;font-weight:600}
 .row{display:flex;gap:10px}
 .row input{flex:1}
 .head{display:flex;gap:14px;align-items:center}
-.av{width:64px;height:64px;border-radius:50%;background:#D5ECEA;color:#0B5C63;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex:none}
+.av{width:64px;height:64px;border-radius:50%;background:#E6DFB5;color:#4B5320;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex:none}
 .badge{display:inline-block;padding:2px 12px;border-radius:99px;background:#DDF3E4;color:#14602F;font-size:13px;font-weight:500;margin-top:6px}
 .badge.off{background:#FBE3E3;color:#8A1F1F}
-.tabs{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid #D5DBE3;margin-bottom:14px}
-.tabs button{flex:none;background:none;border:0;border-bottom:3px solid transparent;padding:10px 14px;color:#566274;font-weight:500}
-.tabs button[aria-selected=true]{color:#0B5C63;border-bottom-color:#0B5C63;font-weight:600}
-.f{padding:10px 0;border-bottom:1px solid #EEF1F5}
+.tabs{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid #C9CDB8;margin-bottom:14px}
+.tabs button{flex:none;background:none;border:0;border-bottom:3px solid transparent;padding:10px 14px;color:#5A5F4A;font-weight:500}
+.tabs button[aria-selected=true]{color:#4B5320;border-bottom-color:#C9A227;font-weight:600}
+.f{padding:10px 0;border-bottom:1px solid #E3E6D6}
 .f:last-child{border-bottom:0}
-.f span{display:block;font-size:13px;color:#566274}
+.f span{display:block;font-size:13px;color:#5A5F4A}
 .f div{font-weight:500;min-height:22px}
 .err{color:#8A1F1F;background:#FBE3E3;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:15px}
 .ok{color:#14602F;background:#DDF3E4;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:15px}
 .hide{display:none}
+.emb{width:36px;height:36px;border-radius:50%;background:#fff;display:block}
+.pill{font-size:12px;background:#2A2F1E;color:#E4C766;border:1px solid #5C5A2A;border-radius:99px;padding:3px 10px}
 </style>
 </head>
 <body>
@@ -58,6 +62,31 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const S = { me: null, role: 'admin', cur: null, priv: null, tab: 'personal', edit: false, msg: '', err: '' };
 const $app = document.getElementById('app');
+const ls = {
+  get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
+  clear() { ['p_me','p_members','p_queue'].forEach(k => localStorage.removeItem(k)); }
+};
+const cacheMember = m => { const c = ls.get('p_members', {}); c[m.service_no] = m; ls.set('p_members', c); };
+const isNet = e => !navigator.onLine || /fetch|network|offline/i.test(String(e?.message || e));
+const pill = () => { const q = ls.get('p_queue', []).length; return navigator.onLine ? (q ? 'সিঙ্ক চলছে (' + q + ')' : 'অনলাইন') : 'অফলাইন' + (q ? ' · ' + q + ' অপেক্ষমাণ' : ''); };
+const setPill = () => { const el = document.getElementById('pill'); if (el) el.textContent = pill(); };
+async function sync() {
+  if (!navigator.onLine || !S.me) return;
+  let q = ls.get('p_queue', []);
+  while (q.length) {
+    const j = q[0]; let r;
+    try {
+      if (j.t === 'audit') r = await sb.from('audit_log').insert(j.row);
+      else { r = await sb.from('members').update(j.rest).eq('id', j.id); if (!r.error && j.priv) r = await sb.from('member_private').upsert(j.priv); }
+    } catch (e) { return setPill(); }
+    if (r.error && isNet(r.error)) return setPill();
+    q.shift(); ls.set('p_queue', q);
+  }
+  setPill();
+}
+window.addEventListener('online', () => { setPill(); sync(); });
+window.addEventListener('offline', setPill);
 
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const toEmail = v => { v = v.trim().toLowerCase(); return v.includes('@') ? v : v + '@portal.test'; };
@@ -72,7 +101,7 @@ function loginView() {
   $app.innerHTML = `
   <div class="wrap" style="padding-top:40px">
     <div class="card">
-      <div class="logo" style="width:48px;height:48px;border-radius:12px;background:#0B5C63;color:#fff;font-size:22px">হ</div>
+      <img class="emb" style="width:64px;height:64px" src="icon-192.png" alt="">
       <h1 style="margin-top:14px">স্বাগতম</h1>
       <p class="muted" style="margin:0">আপনার প্রোফাইল বেছে নিয়ে লগইন করুন</p>
       <div class="seg" role="group" aria-label="প্রোফাইল ধরন">
@@ -102,20 +131,29 @@ async function doLogin() {
 async function boot() {
   const { data: { session } } = await sb.auth.getSession();
   if (!session) return loginView();
-  const { data: me } = await sb.from('members').select('*').eq('id', session.user.id).maybeSingle();
+  let me = null;
+  try { const r = await sb.from('members').select('*').eq('id', session.user.id).maybeSingle(); if (r.error && isNet(r.error)) throw r.error; me = r.data; if (me) ls.set('p_me', me); }
+  catch (e) { const c = ls.get('p_me', null); if (c && c.id === session.user.id) me = c; else { S.err = 'ইন্টারনেট নেই। প্রথমবার লগইনে অনলাইন থাকতে হবে।'; return loginView(); } }
   if (!me) { await sb.auth.signOut(); S.err = 'এই অ্যাকাউন্টের কোনো প্রোফাইল পাওয়া যায়নি। অ্যাডমিনের সাথে যোগাযোগ করুন।'; return loginView(); }
   if (S.role === 'admin' && me.role !== 'admin') { await sb.auth.signOut(); S.err = 'এই অ্যাকাউন্টের অ্যাডমিন অনুমতি নেই। "সদস্য" বেছে নিন।'; return loginView(); }
   S.me = me; S.cur = null; S.tab = 'personal'; S.edit = false;
   if (me.role !== 'admin') await show(me);
   else appView();
+  sync();
 }
 
 async function show(m) {
   S.cur = m; S.tab = 'personal'; S.edit = false; S.msg = ''; S.priv = null;
+  cacheMember(m);
   if (S.me.role === 'admin') {
-    const { data } = await sb.from('member_private').select('*').eq('member_id', m.id).maybeSingle();
-    S.priv = data || {};
-    await sb.from('audit_log').insert({ viewer_id: S.me.id, viewed_id: m.id, action: 'view' });
+    const row = { viewer_id: S.me.id, viewed_id: m.id, action: 'view' };
+    try {
+      if (!navigator.onLine) throw new Error('offline');
+      const { data, error } = await sb.from('member_private').select('*').eq('member_id', m.id).maybeSingle();
+      if (error) throw error;
+      S.priv = data || {};
+      const a = await sb.from('audit_log').insert(row); if (a.error) throw a.error;
+    } catch (e) { const q = ls.get('p_queue', []); q.push({ t: 'audit', row: { ...row, action: 'view_offline' } }); ls.set('p_queue', q); }
   }
   appView();
 }
@@ -123,8 +161,10 @@ async function show(m) {
 async function search() {
   const v = document.getElementById('q').value.trim();
   if (!v) return;
-  const { data } = await sb.from('members').select('*').eq('service_no', v).maybeSingle();
-  if (!data) { S.cur = null; S.err = 'এই সার্ভিস নম্বরে কোনো সদস্য পাওয়া যায়নি।'; return appView(); }
+  let data = null;
+  try { if (!navigator.onLine) throw new Error('offline'); const r = await sb.from('members').select('*').eq('service_no', v).maybeSingle(); if (r.error && isNet(r.error)) throw r.error; data = r.data; }
+  catch (e) { data = ls.get('p_members', {})[v] || null; }
+  if (!data) { S.cur = null; S.err = navigator.onLine ? 'এই সার্ভিস নম্বরে কোনো সদস্য পাওয়া যায়নি।' : 'অফলাইনে শুধু আগে দেখা প্রোফাইল খোঁজা যায়।'; return appView(); }
   S.err = ''; await show(data);
 }
 
@@ -154,13 +194,13 @@ function appView() {
       ${S.msg ? `<div class="ok" role="status">${esc(S.msg)}</div>` : ''}
     </div>
     <div class="tabs" role="tablist">${tabs.map(([id,l]) => `<button role="tab" data-tab="${id}" aria-selected="${S.tab===id}">${l}</button>`).join('')}</div>
-    <div class="card">${FIELDS[S.tab].map(f => fieldHtml(src, f)).join('')}</div>`;
+    <div class="card">${(S.tab==='private' && !S.priv) ? '<p class="muted" style="margin:0">অফলাইনে এই তথ্য দেখা যায় না। ইন্টারনেটে যুক্ত হয়ে খুলুন।</p>' : FIELDS[S.tab].map(f => fieldHtml(src, f)).join('')}</div>`;
   } else if (admin) body += `<p class="muted" style="text-align:center">উপরে সার্ভিস নম্বর লিখে খুঁজুন।</p>`;
 
   $app.innerHTML = `
-  <div class="top"><div class="logo">হ</div><b>সদস্য তথ্যভান্ডার</b><button id="out">বের হন</button></div>
+  <div class="top"><img class="emb" src="icon-192.png" alt=""><b>সদস্য তথ্যভান্ডার</b><span class="pill" id="pill">${pill()}</span><button id="out">বের হন</button></div>
   <div class="wrap">${body}</div>`;
-  document.getElementById('out').onclick = async () => { await sb.auth.signOut(); S.me = S.cur = null; S.err = ''; loginView(); };
+  document.getElementById('out').onclick = async () => { if (ls.get('p_queue', []).length && !confirm('সিঙ্ক হয়নি এমন পরিবর্তন আছে। বের হলে হারিয়ে যাবে। তবুও বের হবেন?')) return; await sb.auth.signOut(); ls.clear(); S.me = S.cur = null; S.err = ''; loginView(); };
   const g = id => document.getElementById(id);
   if (g('sb')) { g('sb').onclick = search; g('q').onkeydown = e => e.key === 'Enter' && search(); }
   if (g('edit')) g('edit').onclick = () => { S.edit = true; S.msg = ''; appView(); };
@@ -171,7 +211,7 @@ function appView() {
 
 // এডিট মোডে ট্যাব বদলালে লেখা হারাবে না
 function collect() {
-  if (!S.edit) return;
+  if (!S.edit || (S.tab === 'private' && !S.priv)) return;
   FIELDS[S.tab].forEach(([k,,type,ro]) => {
     const el = document.getElementById('e_' + k); if (!el || ro) return;
     const v = el.value.trim() === '' ? null : (type === 'number' ? Number(el.value) : el.value.trim());
@@ -182,14 +222,25 @@ function collect() {
 async function save() {
   collect();
   const { service_no, id, role, created_at, ...rest } = S.cur;
-  const a = await sb.from('members').update(rest).eq('id', S.cur.id);
-  const p = await sb.from('member_private').upsert({ member_id: S.cur.id, nid: S.priv.nid ?? null, salary: S.priv.salary ?? null, bank_account: S.priv.bank_account ?? null });
-  if (a.error || p.error) { S.msg = ''; S.err = 'সংরক্ষণ হয়নি: ' + (a.error || p.error).message; }
+  const privRow = S.priv ? { member_id: id, nid: S.priv.nid ?? null, salary: S.priv.salary ?? null, bank_account: S.priv.bank_account ?? null } : null;
+  cacheMember(S.cur);
+  let a = { error: null }, p = { error: null };
+  try {
+    if (!navigator.onLine) throw new Error('offline');
+    a = await sb.from('members').update(rest).eq('id', id);
+    if (!a.error && privRow) p = await sb.from('member_private').upsert(privRow);
+  } catch (e) { a = { error: e }; }
+  const err = a.error || p.error;
+  if (err && isNet(err)) {
+    const q = ls.get('p_queue', []); q.push({ t: 'edit', id, rest, priv: privRow }); ls.set('p_queue', q);
+    S.err = ''; S.msg = 'অফলাইনে সংরক্ষিত হয়েছে। ইন্টারনেট পেলে নিজে থেকে সিঙ্ক হবে।'; S.edit = false;
+  } else if (err) { S.msg = ''; S.err = 'সংরক্ষণ হয়নি: ' + err.message; }
   else { S.err = ''; S.msg = 'তথ্য সংরক্ষিত হয়েছে।'; S.edit = false; }
   appView();
 }
 
 boot();
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
 </script>
 </body>
 </html>
