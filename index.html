@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0E2A33">
+<title>সদস্য তথ্যভান্ডার</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:'Hind Siliguri',sans-serif;background:#F3F5F8;color:#0F1B2D;font-size:16px}
+button,input{font-family:inherit;font-size:16px}
+:focus-visible{outline:3px solid #2BA4A0;outline-offset:2px}
+.wrap{max-width:720px;margin:0 auto;padding:16px}
+.top{background:#0E2A33;color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px}
+.logo{width:34px;height:34px;border-radius:9px;background:#2BA4A0;color:#06242A;display:flex;align-items:center;justify-content:center;font-weight:700}
+.top b{flex:1;font-weight:600}
+.top button{background:transparent;color:#fff;border:1px solid #4A6B75;border-radius:8px;padding:6px 12px}
+.card{background:#fff;border:1px solid #E0E5EB;border-radius:14px;padding:18px;margin-bottom:14px}
+h1{margin:0 0 4px;font-size:26px}
+.muted{color:#566274;font-size:14px}
+label{display:block;font-size:14px;font-weight:500;margin:12px 0 4px}
+input{width:100%;height:48px;padding:0 14px;border:1px solid #C5CCD6;border-radius:10px;background:#fff}
+.btn{height:48px;border:0;border-radius:10px;background:#0B5C63;color:#fff;font-weight:600;padding:0 22px}
+.btn.alt{background:#fff;color:#0B5C63;border:1px solid #0B5C63}
+.btn.full{width:100%;margin-top:18px}
+.seg{display:flex;gap:6px;padding:4px;background:#EEF1F5;border-radius:12px;margin:14px 0 0}
+.seg button{flex:1;height:44px;border:0;border-radius:9px;background:transparent;color:#2F3B4D;font-weight:500}
+.seg button[aria-pressed=true]{background:#0B5C63;color:#fff;font-weight:600}
+.row{display:flex;gap:10px}
+.row input{flex:1}
+.head{display:flex;gap:14px;align-items:center}
+.av{width:64px;height:64px;border-radius:50%;background:#D5ECEA;color:#0B5C63;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex:none}
+.badge{display:inline-block;padding:2px 12px;border-radius:99px;background:#DDF3E4;color:#14602F;font-size:13px;font-weight:500;margin-top:6px}
+.badge.off{background:#FBE3E3;color:#8A1F1F}
+.tabs{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid #D5DBE3;margin-bottom:14px}
+.tabs button{flex:none;background:none;border:0;border-bottom:3px solid transparent;padding:10px 14px;color:#566274;font-weight:500}
+.tabs button[aria-selected=true]{color:#0B5C63;border-bottom-color:#0B5C63;font-weight:600}
+.f{padding:10px 0;border-bottom:1px solid #EEF1F5}
+.f:last-child{border-bottom:0}
+.f span{display:block;font-size:13px;color:#566274}
+.f div{font-weight:500;min-height:22px}
+.err{color:#8A1F1F;background:#FBE3E3;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:15px}
+.ok{color:#14602F;background:#DDF3E4;border-radius:10px;padding:10px 14px;margin-top:12px;font-size:15px}
+.hide{display:none}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+// ====== শুধু এই লাইনটা বদলাবেন: Supabase এর anon public key ======
+const SUPABASE_URL = 'https://nbgatikjoghiafyphkik.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5iZ2F0aWtqb2doaWFmeXBoa2lrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4NTU1NzUsImV4cCI6MjEwOTQzMTU3NX0.BdaJxfdJmj4AW4n4pVFHx30GzoWO3vov5myeRgBCb-k';
+// ==================================================================
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const S = { me: null, role: 'admin', cur: null, priv: null, tab: 'personal', edit: false, msg: '', err: '' };
+const $app = document.getElementById('app');
+
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const toEmail = v => { v = v.trim().toLowerCase(); return v.includes('@') ? v : v + '@portal.test'; };
+
+const FIELDS = {
+  personal: [['full_name','নাম','text'],['dob','জন্মতারিখ','date'],['blood_group','রক্তের গ্রুপ','text'],['phone','ফোন','text'],['address','বর্তমান ঠিকানা','text']],
+  service: [['service_no','সার্ভিস নম্বর','text',true],['rank','পদবি (র‍্যাঙ্ক)','text'],['unit','ইউনিট / ব্যাটালিয়ন','text'],['commission_date','কমিশনের তারিখ','date'],['medical_category','মেডিকেল ক্যাটাগরি','text'],['status','স্ট্যাটাস (active / inactive)','text']],
+  private: [['nid','এনআইডি','text'],['salary','বেতন','number'],['bank_account','ব্যাংক অ্যাকাউন্ট','text']]
+};
+
+function loginView() {
+  $app.innerHTML = `
+  <div class="wrap" style="padding-top:40px">
+    <div class="card">
+      <div class="logo" style="width:48px;height:48px;border-radius:12px;background:#0B5C63;color:#fff;font-size:22px">হ</div>
+      <h1 style="margin-top:14px">স্বাগতম</h1>
+      <p class="muted" style="margin:0">আপনার প্রোফাইল বেছে নিয়ে লগইন করুন</p>
+      <div class="seg" role="group" aria-label="প্রোফাইল ধরন">
+        <button type="button" data-role="admin" aria-pressed="${S.role==='admin'}">অ্যাডমিন</button>
+        <button type="button" data-role="member" aria-pressed="${S.role==='member'}">সদস্য</button>
+      </div>
+      <label for="u">সার্ভিস নম্বর</label>
+      <input id="u" autocomplete="username" placeholder="SVC-10420">
+      <label for="p">পাসওয়ার্ড</label>
+      <input id="p" type="password" autocomplete="current-password">
+      <button class="btn full" id="go">লগইন করুন</button>
+      ${S.err ? `<div class="err" role="alert">${esc(S.err)}</div>` : ''}
+    </div>
+  </div>`;
+  $app.querySelectorAll('[data-role]').forEach(b => b.onclick = () => { S.role = b.dataset.role; loginView(); });
+  document.getElementById('go').onclick = doLogin;
+}
+
+async function doLogin() {
+  const u = document.getElementById('u').value, p = document.getElementById('p').value;
+  if (!u || !p) { S.err = 'সার্ভিস নম্বর ও পাসওয়ার্ড দুটোই দিন।'; return loginView(); }
+  const { error } = await sb.auth.signInWithPassword({ email: toEmail(u), password: p });
+  if (error) { S.err = 'সার্ভিস নম্বর বা পাসওয়ার্ড ঠিক নয়।'; return loginView(); }
+  S.err = ''; await boot();
+}
+
+async function boot() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) return loginView();
+  const { data: me } = await sb.from('members').select('*').eq('id', session.user.id).maybeSingle();
+  if (!me) { await sb.auth.signOut(); S.err = 'এই অ্যাকাউন্টের কোনো প্রোফাইল পাওয়া যায়নি। অ্যাডমিনের সাথে যোগাযোগ করুন।'; return loginView(); }
+  if (S.role === 'admin' && me.role !== 'admin') { await sb.auth.signOut(); S.err = 'এই অ্যাকাউন্টের অ্যাডমিন অনুমতি নেই। "সদস্য" বেছে নিন।'; return loginView(); }
+  S.me = me; S.cur = null; S.tab = 'personal'; S.edit = false;
+  if (me.role !== 'admin') await show(me);
+  else appView();
+}
+
+async function show(m) {
+  S.cur = m; S.tab = 'personal'; S.edit = false; S.msg = ''; S.priv = null;
+  if (S.me.role === 'admin') {
+    const { data } = await sb.from('member_private').select('*').eq('member_id', m.id).maybeSingle();
+    S.priv = data || {};
+    await sb.from('audit_log').insert({ viewer_id: S.me.id, viewed_id: m.id, action: 'view' });
+  }
+  appView();
+}
+
+async function search() {
+  const v = document.getElementById('q').value.trim();
+  if (!v) return;
+  const { data } = await sb.from('members').select('*').eq('service_no', v).maybeSingle();
+  if (!data) { S.cur = null; S.err = 'এই সার্ভিস নম্বরে কোনো সদস্য পাওয়া যায়নি।'; return appView(); }
+  S.err = ''; await show(data);
+}
+
+function fieldHtml(src, [k, label, type, ro]) {
+  const val = src?.[k] ?? '';
+  if (S.edit && !ro) return `<label for="e_${k}">${label}</label><input id="e_${k}" type="${type}" value="${esc(val)}">`;
+  return `<div class="f"><span>${label}</span><div>${esc(val) || '—'}</div></div>`;
+}
+
+function appView() {
+  const admin = S.me.role === 'admin', m = S.cur;
+  let body = '';
+  if (admin) body += `
+    <div class="card"><label for="q" style="margin-top:0">সার্ভিস নম্বর খুঁজুন</label>
+    <div class="row"><input id="q" placeholder="SVC-10420" value="${esc(m?.service_no || '')}"><button class="btn" id="sb">খুঁজুন</button></div>
+    ${S.err ? `<div class="err" role="alert">${esc(S.err)}</div>` : ''}</div>`;
+  if (m) {
+    const tabs = [['personal','ব্যক্তিগত তথ্য'],['service','সার্ভিস তথ্য']];
+    if (admin) tabs.push(['private','বেতন ও ব্যাংক']);
+    const src = S.tab === 'private' ? S.priv : m;
+    body += `
+    <div class="card"><div class="head"><div class="av">${esc((m.full_name||'?').trim().charAt(0))}</div>
+      <div style="flex:1"><div style="font-size:22px;font-weight:700">${esc(m.full_name)}</div>
+      <div class="muted">${esc(m.rank || '')} ${m.unit ? '· ' + esc(m.unit) : ''}</div>
+      <span class="badge ${m.status==='active'?'':'off'}">${m.status==='active'?'কর্মরত':esc(m.status)}</span></div></div>
+      ${admin ? `<div class="row" style="margin-top:14px">${S.edit ? `<button class="btn" id="save">সংরক্ষণ করুন</button><button class="btn alt" id="cancel">বাতিল</button>` : `<button class="btn alt" id="edit">তথ্য এডিট</button>`}</div>` : ''}
+      ${S.msg ? `<div class="ok" role="status">${esc(S.msg)}</div>` : ''}
+    </div>
+    <div class="tabs" role="tablist">${tabs.map(([id,l]) => `<button role="tab" data-tab="${id}" aria-selected="${S.tab===id}">${l}</button>`).join('')}</div>
+    <div class="card">${FIELDS[S.tab].map(f => fieldHtml(src, f)).join('')}</div>`;
+  } else if (admin) body += `<p class="muted" style="text-align:center">উপরে সার্ভিস নম্বর লিখে খুঁজুন।</p>`;
+
+  $app.innerHTML = `
+  <div class="top"><div class="logo">হ</div><b>সদস্য তথ্যভান্ডার</b><button id="out">বের হন</button></div>
+  <div class="wrap">${body}</div>`;
+  document.getElementById('out').onclick = async () => { await sb.auth.signOut(); S.me = S.cur = null; S.err = ''; loginView(); };
+  const g = id => document.getElementById(id);
+  if (g('sb')) { g('sb').onclick = search; g('q').onkeydown = e => e.key === 'Enter' && search(); }
+  if (g('edit')) g('edit').onclick = () => { S.edit = true; S.msg = ''; appView(); };
+  if (g('cancel')) g('cancel').onclick = () => { S.edit = false; appView(); };
+  if (g('save')) g('save').onclick = save;
+  $app.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { collect(); S.tab = b.dataset.tab; appView(); });
+}
+
+// এডিট মোডে ট্যাব বদলালে লেখা হারাবে না
+function collect() {
+  if (!S.edit) return;
+  FIELDS[S.tab].forEach(([k,,type,ro]) => {
+    const el = document.getElementById('e_' + k); if (!el || ro) return;
+    const v = el.value.trim() === '' ? null : (type === 'number' ? Number(el.value) : el.value.trim());
+    if (S.tab === 'private') S.priv[k] = v; else S.cur[k] = v;
+  });
+}
+
+async function save() {
+  collect();
+  const { service_no, id, role, created_at, ...rest } = S.cur;
+  const a = await sb.from('members').update(rest).eq('id', S.cur.id);
+  const p = await sb.from('member_private').upsert({ member_id: S.cur.id, nid: S.priv.nid ?? null, salary: S.priv.salary ?? null, bank_account: S.priv.bank_account ?? null });
+  if (a.error || p.error) { S.msg = ''; S.err = 'সংরক্ষণ হয়নি: ' + (a.error || p.error).message; }
+  else { S.err = ''; S.msg = 'তথ্য সংরক্ষিত হয়েছে।'; S.edit = false; }
+  appView();
+}
+
+boot();
+</script>
+</body>
+</html>
